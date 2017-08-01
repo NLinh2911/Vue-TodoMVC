@@ -45,17 +45,17 @@
   import Footer from './Footer.vue';
   import axios from 'axios';
 
+  //
+  const baseURL = 'http://127.0.0.1:3000';
+  //
   export default {
-
     data() {
       return {
         todos: [],
         newTodo: '',
         editedTodo: null,
         visibility: 'all',
-        filters: null,
-        user: '',
-        showTodo: false
+        filters: null
       }
     },
     created() {
@@ -76,7 +76,7 @@
         }
       }
       // retrieve todo data from server
-      axios.get(`http://192.168.1.107:3000/api/todo-mvc/all`)
+      axios.get(`${baseURL}/api/todo-mvc/all`)
         .then(res => {
           this.todos = res.data
           this.visibility = this.$route.params.status
@@ -139,7 +139,7 @@
         if (!value) {
           return
         }
-        axios.post('http://192.168.1.107:3000/api/todo-mvc/addTodo', {
+        axios.post(`${baseURL}/api/todo-mvc/addTodo`, {
             title: value,
             completed: false
           })
@@ -154,7 +154,7 @@
       },
 
       removeTodo: function (id) {
-        axios.post('http://192.168.1.107:3000/api/todo-mvc/removeTodo', {
+        axios.post(`${baseURL}/api/todo-mvc/removeTodo`, {
             id
           })
           .then(res => {
@@ -173,7 +173,7 @@
 
       completeTodo: function (todo) {
         //todo.completed = !todo.completed
-        axios.post('http://192.168.1.107:3000/api/todo-mvc/completeTodo', {
+        axios.post(`${baseURL}/api/todo-mvc/completeTodo`, {
             todo
           })
           .then(res => {
@@ -202,7 +202,7 @@
           // todo.title = this.beforeEditCache
           return
         }
-        axios.post('http://192.168.1.107:3000/api/todo-mvc/editTodo', {
+        axios.post(`${baseURL}/api/todo-mvc/editTodo`, {
             todo
           })
           .then(res => {
@@ -226,7 +226,7 @@
       },
 
       removeCompleted: function () {
-        axios.post('http://192.168.1.107:3000/api/todo-mvc/removeCompleted', {
+        axios.post(`${baseURL}/api/todo-mvc/removeCompleted`, {
             completedTodos: this.filters.completed(this.todos)
           })
           .then(res => {
